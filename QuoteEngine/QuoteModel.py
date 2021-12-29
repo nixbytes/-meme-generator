@@ -2,6 +2,7 @@
    class represents a quote object.
 """
 
+
 class QuoteModel:
     """Class Quote: Base class for a quote."""
 
