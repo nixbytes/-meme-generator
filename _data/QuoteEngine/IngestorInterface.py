@@ -7,3 +7,4 @@ class IngestorInterface():
         pass
     def parse(cls, path: str) -> List[QuoteModel]:
         pass
+
