@@ -1,19 +1,26 @@
 from .QuoteModel import QuoteModel
 from typing import List
+from abc import ABC, abstractmethod
 import subprocess
 import os
 
-class IngestorInterface():
+class IngestorInterface(ABC):
     """Class Ingestor."""
-    
+    file_extensions = list()
+    @classmethod
     def can_ingest(cls, path: str) -> bool:
-        pass
+        """Check if quote file can be ingested using file_extensions"""
+        extension = path.split('.')[-1]
+        return extension in cls.file_extensions
 
+    @classmethod
+    @abstractmethod
     def parse(cls, path: str) -> List[QuoteModel]:
+        """Abstracmethod is the main Class"""
         pass
 
 class Text_Ingestor(IngestorInterface):
-    allowed_extensions = ['txt']
+    file_extensions = ['txt']
 
     @classmethod
     def parse(cls, path: str) -> List[QuoteModel]:
