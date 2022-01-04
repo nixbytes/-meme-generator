@@ -4,6 +4,8 @@ import requests
 from flask import Flask, render_template, abort, request
 
 # @TODO Import your Ingestor and MemeEngine classes
+from QuoteEngine.Ingestor import Ingestor
+
 
 app = Flask(__name__)
 
@@ -18,17 +20,25 @@ def setup():
                    './_data/DogQuotes/DogQuotesPDF.pdf',
                    './_data/DogQuotes/DogQuotesCSV.csv']
 
-    # TODO: Use the Ingestor class to parse all files in the
-    # quote_files variable
-    quotes = None
+    quotes = []
+    for file in quote_files:
+        try:
+            quotes.extend(Ingestor.parse(file))
+        except TypeError:
+            print(f'{file} extension unsupported')
+            continue
 
-    images_path = "./_data/photos/dog/"
+    images_path = "./_data/photos/"
 
-    # TODO: Use the pythons standard library os class to find all
-    # images within the images images_path directory
-    imgs = None
+    imgs = [
+        os.path.join(images_path, image)
+        for image in os.listdir(images_path)
+        if image.endswith('.jpg')
+    ]
 
     return quotes, imgs
+
+
 
 
 quotes, imgs = setup()
@@ -38,13 +48,8 @@ quotes, imgs = setup()
 def meme_rand():
     """ Generate a random meme """
 
-    # @TODO:
-    # Use the random python standard library class to:
-    # 1. select a random image from imgs array
-    # 2. select a random quote from the quotes array
-
-    img = None
-    quote = None
+    img = random.choice(imgs)
+    quote = random.choice(quotes)
     path = meme.make_meme(img, quote.body, quote.author)
     return render_template('meme.html', path=path)
 
