@@ -20,6 +20,7 @@ class IngestorInterface(ABC):
         pass
 
 class Text_Ingestor(IngestorInterface):
+    """Class Text Ingestor."""
     file_extensions = ['txt']
 
     @classmethod

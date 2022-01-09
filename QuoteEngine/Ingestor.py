@@ -1,12 +1,12 @@
 """Abstract base class for the IngestInterface abstraction"""
 
 from typing import List
-from .IngestorInterface import IngestInterface
+from .IngestorInterface import IngestorInterface
 from .IngestorInterface import Text_Ingestor
 from .QuoteModel import QuoteModel
 
 
-class Ingestor(IngestInterface):
+class Ingestor(IngestorInterface):
     """Abstract base class for an ingestor."""
 
     file_ingestors = [Text_Ingestor] 

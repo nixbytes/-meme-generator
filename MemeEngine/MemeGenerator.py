@@ -22,18 +22,27 @@ class MemeGenerator():
 
         image = Image.open(image_location)
         names = text.split(' ')
-        static_path = 'static/' + names[-1] + '_meme.jpg'
+        static_path = 'content/' + names[-1].strip() + '.jpg'
 
         if width is not None:
             ratio = float(width)/float(image.size[0])
             height = int(ratio * float(image.size[1]))
             image = image.resize((width, height), Image.NEAREST)
-        message = text + " -" + author
-        wrapper = textwrap.TextWrapper(width=50)
-        message = wrapper.fill(text=message)
 
-        if message is not None:
+        wrapper = textwrap.TextWrapper(width=50)
+        text_message = f"{text}"
+        text_message = wrapper.fill(text=text_message)
+
+        author_message = f"{author}"
+        author_message = wrapper.fill(text=author_message)
+
+        font = ImageFont.truetype('./fonts/Roboto-Regular.ttf', 50)
+
+        if text_message or author_message is not None:
             draw = ImageDraw.Draw(image)
-            draw.text((10, 30), message)
+
+            draw.text((10, 30), text_message, font=font, fill='white')
+            draw.text((300, 400), author_message, font=font, fill='white')
             image.save(static_path)
+
         return static_path
