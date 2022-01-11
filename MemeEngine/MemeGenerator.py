@@ -2,7 +2,7 @@ from PIL import Image, ImageDraw, ImageFont
 
 import textwrap
 
-class MemeGenerator():
+class MemeGenerator:
     """Class to generate a meme."""
     def __init__(self, image_location, text, author, width):
         """Create a new meme for self"""
