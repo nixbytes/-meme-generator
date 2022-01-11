@@ -3,6 +3,7 @@ from typing import List
 from abc import ABC, abstractmethod
 import subprocess
 import os
+import random
 
 class IngestorInterface(ABC):
     """Class Ingestor."""
@@ -41,7 +42,27 @@ class Text_Ingestor(IngestorInterface):
         return quotes
 
 class PDF_Ingestor(IngestorInterface):
-    pass 
+    allowed_extensions = ['pdf']
+
+    @classmethod
+    def parse(cls, path: str) -> List[QuoteModel]:
+        if not cls.can_ingest(path):
+            raise Exception('cannot ingest exception')
+
+        tmp = f'./content/{random.randint(0,100000)}.txt'
+        call = subprocess.call(['pdftotext', path, tmp])
+        with open(tmp, "r") as file:
+            quotes = []
+
+            for line in file.readlines():
+                line = line.strip('\n\r').strip()
+                if len(line) > 0:
+                    parse = line.split(' - ')
+                    new_quote = QuoteModel(parse[0], parse[1])
+                    quotes.append(new_quote)
+
+        os.remove(tmp)
+        return quotes
 
 
 class Docx_Ingestor(IngestorInterface):
