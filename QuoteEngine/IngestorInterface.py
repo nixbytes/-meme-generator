@@ -3,7 +3,9 @@ from typing import List
 from abc import ABC, abstractmethod
 import subprocess
 import os
+import docx
 import random
+
 
 class IngestorInterface(ABC):
     """Class Ingestor."""
@@ -66,7 +68,26 @@ class PDF_Ingestor(IngestorInterface):
 
 
 class Docx_Ingestor(IngestorInterface):
-    pass
+    """The class that ingests info from docx files."""
+    allowed_extension = ['docx']
+
+    @classmethod
+    def parse(cls, path: str) -> List[QuoteModel]:
+        if not cls.can_ingest(path):
+            raise Exception('cannot ingest exception')
+        try:
+            quotes = []
+            doc_file = docx.Ddocument(path)
+
+            for listing in doc_file.paragraphs:
+                if listing.text != "":
+                    parse = listing.text.replace('\"', '').split(' - ')
+                    new_quote = QuoteModel(parse[0], parse[1])
+                    quotes.append(new_quote)
+        except Exception as e:
+            raise Exception("cannot parse docx file")
+
+        return quotes
 
 
 class CSV_Ingestor(IngestorInterface):
