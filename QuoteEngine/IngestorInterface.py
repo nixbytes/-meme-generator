@@ -4,6 +4,7 @@ from abc import ABC, abstractmethod
 import subprocess
 import os
 import docx
+import pandas
 import random
 
 
@@ -23,7 +24,7 @@ class IngestorInterface(ABC):
         pass
 
 class Text_Ingestor(IngestorInterface):
-    """Class Text Ingestor."""
+    """The class that ingests info from text files."""
     file_extensions = ['txt']
 
     @classmethod
@@ -44,6 +45,7 @@ class Text_Ingestor(IngestorInterface):
         return quotes
 
 class PDF_Ingestor(IngestorInterface):
+    """The class that ingests info from pdf files."""
     allowed_extensions = ['pdf']
 
     @classmethod
@@ -91,4 +93,19 @@ class Docx_Ingestor(IngestorInterface):
 
 
 class CSV_Ingestor(IngestorInterface):
-    pass
+    """The class that ingests info from csv files."""
+    allowed_extensions = ['csv']
+
+    @classmethod
+    def parse(cls, path: str) -> List[QuoteModel]:
+        if not cls.can_ingest(path):
+            raise Exception('cannot ingest csv file')
+
+        quotes = []
+        df = pandas.read_csv(path, header=0)
+
+        for index, row in df.iterrows():
+            new_quote = QuoteModel(row['body'], row['author'])
+            quotes.append(new_quote)
+
+        return quotes
