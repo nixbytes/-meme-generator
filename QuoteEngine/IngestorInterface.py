@@ -10,12 +10,12 @@ import random
 
 class IngestorInterface(ABC):
     """Class Ingestor."""
-    file_extensions = list()
+    file_extension = list()
     @classmethod
     def can_ingest(cls, path: str) -> bool:
         """Check if quote file can be ingested using file_extensions"""
         extension = path.split('.')[-1]
-        return extension in cls.file_extensions
+        return extension in cls.file_extension
 
     @classmethod
     @abstractmethod
@@ -25,7 +25,7 @@ class IngestorInterface(ABC):
 
 class Text_Ingestor(IngestorInterface):
     """The class that ingests info from text files."""
-    file_extensions = ['txt']
+    file_extension = ['txt']
 
     @classmethod
     def parse(cls, path: str) -> List[QuoteModel]:
@@ -37,7 +37,7 @@ class Text_Ingestor(IngestorInterface):
 
             for line in text_file.readlines():
                 line = line.strip('\n\r').strip()
-                if len(line) is not 0:
+                if len(line) != 0:
                     parse = line.split(' - ')
                     new_quote = QuoteModel(parse[0], parse[1])
                     quotes.append(new_quote)
@@ -46,7 +46,7 @@ class Text_Ingestor(IngestorInterface):
 
 class PDF_Ingestor(IngestorInterface):
     """The class that ingests info from pdf files."""
-    allowed_extensions = ['pdf']
+    file_extensions = ['pdf']
 
     @classmethod
     def parse(cls, path: str) -> List[QuoteModel]:
@@ -71,7 +71,7 @@ class PDF_Ingestor(IngestorInterface):
 
 class Docx_Ingestor(IngestorInterface):
     """The class that ingests info from docx files."""
-    allowed_extension = ['docx']
+    file_extension = ['docx']
 
     @classmethod
     def parse(cls, path: str) -> List[QuoteModel]:
@@ -79,7 +79,7 @@ class Docx_Ingestor(IngestorInterface):
             raise Exception('cannot ingest exception')
         try:
             quotes = []
-            doc_file = docx.Ddocument(path)
+            doc_file = docx.Document(path)
 
             for listing in doc_file.paragraphs:
                 if listing.text != "":
@@ -94,7 +94,7 @@ class Docx_Ingestor(IngestorInterface):
 
 class CSV_Ingestor(IngestorInterface):
     """The class that ingests info from csv files."""
-    allowed_extensions = ['csv']
+    file_extension = ['csv']
 
     @classmethod
     def parse(cls, path: str) -> List[QuoteModel]:
