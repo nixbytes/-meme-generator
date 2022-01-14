@@ -2,7 +2,6 @@ import os
 import random
 import argparse
 
-# @TODO Import your Ingestor and MemeEngine classes
 from QuoteEngine.Ingestor import Ingestor
 from MemeEngine.MemeGenerator import MemeGenerator
 from QuoteEngine import QuoteModel
