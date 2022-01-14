@@ -13,10 +13,10 @@ app = Flask(__name__)
 def setup():
     """ Load all resources """
 
-    quote_files = ["./_data/DogQuotes/DogQuotesTXT.txt",
-                   "./_data/DogQuotes/DogQuotesDOCX.docx",
-                   "./_data/DogQuotes/DogQuotesPDF.pdf",
-                   "./_data/DogQuotes/DogQuotesCSV.csv"
+    quote_files = ["_data/DogQuotes/DogQuotesTXT.txt",
+                   "_data/DogQuotes/DogQuotesDOCX.docx",
+                   "_data/DogQuotes/DogQuotesPDF.pdf",
+                   "_data/DogQuotes/DogQuotesCSV.csv"
                    ]
 
     quotes = []
@@ -27,7 +27,7 @@ def setup():
             print(f'{file} extension unsupported')
             continue
 
-    images_path = "./_data/photos/dog/"
+    images_path = "_data/photos/dog/"
 
     imgs = [
         os.path.join(images_path, image)
@@ -57,14 +57,19 @@ def meme_form():
 @app.route('/create', methods=['POST'])
 def meme_post():
     """ Create a user defined meme """
-
+    
     url = request.form['image_url']
     quote = QuoteEngine.QuoteModel(request.form["body"], request.form["author"])
-    img = requests.get(url)
-    temp_path = f"./tmp/{random.randint(0, 100000)}.png"
-    open(temp_path, 'wb').write(img.content)
-    path = MemeGenerator.make_meme(temp_path, quote.body, quote.author)
-    return render_template('meme.html', path=path)         
+
+    try:
+        img = requests.get(url)
+        temp_path = f"content/{random.randint(0, 100000)}.jpeg"
+        open(temp_path, 'wb').write(img.content)
+        path = MemeGenerator.make_meme(temp_path, quote.body, quote.author)
+        return render_template('meme.html', path=path)
+    except:
+        print("Invalid URL")
+        return render_template('meme_error.html')
 
 if __name__ == "__main__":
     app.run()

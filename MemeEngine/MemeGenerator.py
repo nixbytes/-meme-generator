@@ -1,5 +1,5 @@
 from PIL import Image, ImageDraw, ImageFont
-
+import os
 import textwrap
 
 class MemeGenerator:
@@ -22,7 +22,7 @@ class MemeGenerator:
 
         image = Image.open(image_location)
         names = text.split(' ')
-        static_path = 'content/' + names[-1].strip() + '.jpg'
+        static_path = 'content/' + names[-1].strip() + '.jpeg'
 
         if width is not None:
             ratio = float(width)/float(image.size[0])
@@ -36,13 +36,15 @@ class MemeGenerator:
         author_message = f"{author}"
         author_message = wrapper.fill(text=author_message)
 
-        font = ImageFont.truetype('./fonts/Roboto-Regular.ttf', 50)
+        font = ImageFont.truetype('fonts/Roboto-Regular.ttf', 50)
 
         if text_message or author_message is not None:
             draw = ImageDraw.Draw(image)
 
             draw.text((10, 30), text_message, font=font, fill='white')
             draw.text((300, 400), author_message, font=font, fill='white')
+            if not os.path.isdir('./content/'):
+                os.makedirs('./content/')
             image.save(static_path)
 
         return static_path
