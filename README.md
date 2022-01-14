@@ -1,10 +1,16 @@
 # Meme Generator – Instructions
 
-Use Python and Flask to generate memes randomly or with user input. The goal of this project is to build a "meme generator" – a multimedia application to dynamically generate memes, including an image with an overlaid quote. 
-
 Overview
 
-A multimedia application to dynamically generate memes, including an image with an overlaid quote. User can make meme by providing image url and quote, author text.
+Use Python and Flask to generate memes randomly or with user input. The goal of this project is to build a "meme generator" – a multimedia application to dynamically generate memes, including an image with an overlaid quote. User can make meme by providing image url and quote, author text.
+
+Quote Engine Module
+
+This parses the aforementioned file types and creates a qoute model for those which is really just a strucutured way of showing a qoute clearly with the context (body) and the author.
+
+Meme Generator Module
+
+This puts the qoute on the image to create the meme
 
 Installation
 
@@ -33,7 +39,9 @@ optional arguments:
 
 ```
 
-Web App Start up
+Web App Start up 
+
+once start navigate to /127.0.0.1:5000/
 
 ```
 $ python3 app.py 
