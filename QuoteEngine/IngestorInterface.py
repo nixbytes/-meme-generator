@@ -4,7 +4,7 @@ from abc import ABC, abstractmethod
 import subprocess
 import os
 import docx
-import pandas
+import csv
 import random
 
 
@@ -102,10 +102,11 @@ class CSV_Ingestor(IngestorInterface):
             raise Exception('cannot ingest csv file')
 
         quotes = []
-        df = pandas.read_csv(path, header=0)
 
-        for index, row in df.iterrows():
-            new_quote = QuoteModel(row['body'], row['author'])
-            quotes.append(new_quote)
-
+        with open(path, 'r') as infile:
+            reader = csv.DictReader(infile)
+            for elem in reader:
+                text = elem['body'].strip('"')
+                quote = QuoteModel(text, elem['author'])
+                quotes.append(quote)
         return quotes
