@@ -26,7 +26,7 @@ def setup():
             print(f'{file} extension unsupported')
             continue
 
-    images_path = "./_data/photos/dog"
+    images_path = "./_data/photos/dog/"
 
     imgs = [
         os.path.join(images_path, image)

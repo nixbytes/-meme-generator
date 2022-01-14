@@ -1,22 +1,47 @@
 # Meme Generator – Instructions
 
-The goal of this project is to build a "meme generator" – a multimedia application to dynamically generate memes, including an image with an overlaid quote. It’s not that simple though! Your content team spent countless hours writing quotes in a variety of filetypes. You could manually copy and paste these quotes into one standard format – but you’re going to over-engineer a solution to load quotes from each file.
+Use Python and Flask to generate memes randomly or with user input. The goal of this project is to build a "meme generator" – a multimedia application to dynamically generate memes, including an image with an overlaid quote. 
 
+Overview
 
-The application you build must:
+A multimedia application to dynamically generate memes, including an image with an overlaid quote. User can make meme by providing image url and quote, author text.
 
-    - Interact with a variety of complex filetypes. This emulates the kind of data you’ll encounter in a data engineering role.
-    - Load quotes from a variety of filetypes (PDF, Word Documents, CSVs, Text files).
-    - Load, manipulate, and save images.
-    - Accept dynamic user input through a command-line tool and a web service. This emulates the kind of work you’ll encounter as a full stack developer.
+Installation
 
-This project will give you a hands-on opportunity to practice what you've learned in this course, such as:
+pip install -r requirements.txt
 
-    - Object-oriented thinking in Python, including abstract classes, class methods, and static methods.
-    - DRY (don’t repeat yourself) principles of class and method design.
-    - Working with modules and packages in Python.
+Built With
 
-As you're building your project, be sure to demonstrate coding best practices for style and documentation. Ensure your code, docstrings, and comments adhere to PEP 8 Standards.
+    Flask: Simple web server interface
+    CSV: Easy processing meme text from csv files
+    Pillow: Image processing to add text
+    pdftotext: command-line utility for converting PDF files to plain text files
 
-You'll find detailed instructions on the following pages. And while you work through the instructions, you can also check your work against the project rubric to see exactly what your reviewer will be looking for when they grade your project.
+CLI Functions
 
+```
+$ python3 meme.py -h
+usage: meme.py [-h] [--path PATH] [--body BODY] [--author AUTHOR]
+
+Show me a meme
+
+optional arguments:
+  -h, --help       show this help message and exit
+  --path PATH      path to an image
+  --body BODY      quote body to add to the image
+  --author AUTHOR  quote author to add to the image
+
+```
+
+Web App Start up
+
+```
+$ python3 app.py 
+ * Serving Flask app 'app' (lazy loading)
+ * Environment: production
+   WARNING: This is a development server. Do not use it in a production deployment.
+   Use a production WSGI server instead.
+ * Debug mode: off
+ * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
+
+```
